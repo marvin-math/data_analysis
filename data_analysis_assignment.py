@@ -5,9 +5,11 @@ Created on Tue Feb 25 17:40:23 2020
 @author: marvi
 """
 import pandas
+import matplotlib.pyplot
 import os
 import statistics
 import numpy
+import seaborn
 import statsmodels.formula.api as smf
 from sklearn.linear_model import LinearRegression
 
@@ -41,7 +43,7 @@ category_high_high = df.loc[(df['Disgust'] == 'high') & (df['Fear'] == 'high')]
 
 # linear regression
 #%%
-formula_kill = "KillRating ~ C(Disgust) + C(Fear)"
+formula_kill = "KillRating ~ 1 + C(Disgust) + C(Fear)"
 m_kill = smf.ols(formula_kill, data = df).fit()
 print(m_kill.summary())
 #linear model: KillRating = 7.95 - 0.75 * Disgust - 1.43 * Fear (where Disgust
@@ -52,3 +54,30 @@ print(m_kill.summary())
 # high, low: 7.95 - 1.43 = 6.52
 # high, high: 7.95 - 0 = 7.95
 # question: what does he exactly mean with 'the results of a linear model'?
+
+#visualizing the data
+#%%
+# solutions taken from seaborn documentation: https://seaborn.pydata.org/generated/seaborn.boxplot.html ; 
+# https://seaborn.pydata.org/generated/seaborn.swarmplot.html and a forum: 
+# https://cmdlinetips.com/2019/03/how-to-make-grouped-boxplots-in-python-with-seaborn/
+
+bp = seaborn.boxplot(x = 'Disgust', y = 'KillRating', hue = 'Fear', palette = ['r', 'b'],
+                data = df)
+bp = seaborn.stripplot(x = 'Disgust', y = 'KillRating', hue = 'Fear', dodge = True, palette = ['r', 'b'],
+                  data = df, linewidth=1)
+handles, labels = bp.get_legend_handles_labels()
+l = matplotlib.pyplot.legend(handles[0:2], labels[0:2], title = 'Fear')
+
+# missing: legend outside the diagram, scale of y-axis in steps of one, not steps of two
+
+
+
+
+
+
+
+
+
+
+
+
