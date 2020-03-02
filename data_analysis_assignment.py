@@ -6,40 +6,19 @@ Created on Tue Feb 25 17:40:23 2020
 """
 import pandas
 import matplotlib.pyplot
-import os
 import statistics
-import numpy
 import seaborn
 import statsmodels.formula.api as smf
-from sklearn.linear_model import LinearRegression
 
 
 # summary statistics
 #%%
-filepath = os.path.join('bugs.csv')
+filepath = 'bugs.csv'
 df = pandas.read_csv(filepath)
 summary_df = {'KillRating': [statistics.mean, statistics.median, min, max, statistics.stdev]}
 grouped_df = df.groupby(['Disgust', 'Fear']).aggregate(summary_df)
 grouped_df_trial = df.groupby(['Disgust', 'Fear'])
 print(grouped_df)
-
-
-
-# ///// separation of the data set into different compartments /////
-#%% the different compartments reflect the four different categories of bugs
-
-category_low_low = df.loc[(df['Disgust'] == 'low') & (df['Fear'] == 'low')]
-#print(category_low_low)
-
-category_low_high = df.loc[(df['Disgust'] == 'low') & (df['Fear'] == 'high')]
-#print(category_low_high)
-
-category_high_low = df.loc[(df['Disgust'] == 'high') & (df['Fear'] == 'low')]
-#print(category_high_low)
-
-category_high_high = df.loc[(df['Disgust'] == 'high') & (df['Fear'] == 'high')]
-#print(category_high_high)
-
 
 # linear regression
 #%%
@@ -62,13 +41,13 @@ print(m_kill.summary())
 # https://cmdlinetips.com/2019/03/how-to-make-grouped-boxplots-in-python-with-seaborn/
 
 bp = seaborn.boxplot(x = 'Disgust', y = 'KillRating', hue = 'Fear', palette = ['r', 'b'],
-                data = df)
+                data = df, showfliers = False)
 bp = seaborn.stripplot(x = 'Disgust', y = 'KillRating', hue = 'Fear', dodge = True, palette = ['r', 'b'],
                   data = df, linewidth=1)
 handles, labels = bp.get_legend_handles_labels()
-l = matplotlib.pyplot.legend(handles[0:2], labels[0:2], title = 'Fear')
+legend = matplotlib.pyplot.legend(handles[0:2], labels[0:2], title = 'Fear', loc = 8)
 
-# missing: legend outside the diagram, scale of y-axis in steps of one, not steps of two
+#missing: legend outside the diagram, scale of y-axis in steps of one instead of two, 
 
 
 
