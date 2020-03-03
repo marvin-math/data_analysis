@@ -13,26 +13,32 @@ import statsmodels.formula.api as smf
 
 # summary statistics
 #%%
-filepath = 'bugs.csv'
+filepath = "bugs.csv"
 df = pandas.read_csv(filepath)
-summary_df = {'KillRating': [statistics.mean, statistics.median, min, max, statistics.stdev]}
-grouped_df = df.groupby(['Disgust', 'Fear']).aggregate(summary_df)
-grouped_df_trial = df.groupby(['Disgust', 'Fear'])
-print(grouped_df)
+summary_df = {"KillRating": [statistics.mean, statistics.median, min, max, statistics.stdev]}
+grouped_df = df.groupby(["Disgust", "Fear"]).aggregate(summary_df)
+grouped_df_trial = df.groupby(["Disgust", "Fear"])
+print("Summary statistics of the KillRatings for each type of bug:\n\n",grouped_df)
 
 # linear regression
 #%%
 formula_kill = "KillRating ~ 1 + C(Disgust) + C(Fear)"
+# adding 1 in the formula is redundant, since the ordinary least squares function
+# also works without it. However, I decided to keep it for the sake of clarity and 
+# in case there is a program that doesn't automatically search for a constant value
+# keeping the 1 in this formula makes this program more easy to implement for others.
+# With the same thought I added the C() to Disgust and Fear, which communicates
+# the program that the variable at hand is a categorical one. 
 m_kill = smf.ols(formula_kill, data = df).fit()
-print(m_kill.summary())
+print("""\n\nThe results of a linear model with kill rating as the outcome variable 
+and the categories of bug as the predictor variables:\n\n""", m_kill.summary())
 #linear model: KillRating = 7.95 - 0.75 * Disgust - 1.43 * Fear (where Disgust
 # and Fear take the value 1 if low and 0 if high)
-# results: 
+# model-based predictions: 
 # low, low: 7.95 - 0.75 - 1.43 = 5.77
 # low, high: 7.95 - 0.75 = 7.2
 # high, low: 7.95 - 1.43 = 6.52
 # high, high: 7.95 - 0 = 7.95
-# question: what does he exactly mean with 'the results of a linear model'?
 
 #visualizing the data
 #%%
