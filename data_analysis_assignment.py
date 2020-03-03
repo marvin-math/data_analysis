@@ -9,6 +9,8 @@ import matplotlib.pyplot
 import statistics
 import seaborn
 import statsmodels.formula.api as smf
+import plotnine as p9
+
 
 
 # summary statistics
@@ -46,20 +48,28 @@ and the categories of bug as the predictor variables:\n\n""", m_kill.summary())
 # https://seaborn.pydata.org/generated/seaborn.swarmplot.html and a forum: 
 # https://cmdlinetips.com/2019/03/how-to-make-grouped-boxplots-in-python-with-seaborn/
 
-bp = seaborn.boxplot(x = 'Disgust', y = 'KillRating', hue = 'Fear', palette = ['r', 'b'],
-                data = df, showfliers = False)
-bp = seaborn.stripplot(x = 'Disgust', y = 'KillRating', hue = 'Fear', dodge = True, palette = ['r', 'b'],
-                  data = df, linewidth=1)
-handles, labels = bp.get_legend_handles_labels()
-legend = matplotlib.pyplot.legend(handles[0:2], labels[0:2], title = 'Fear', loc = 8)
+#bp = seaborn.boxplot(x = 'Disgust', y = 'KillRating', hue = 'Fear', palette = ['r', 'b'],
+#                data = df, showfliers = False)
+#bp = seaborn.stripplot(x = 'Disgust', y = 'KillRating', hue = 'Fear', dodge = True, palette = ['r', 'b'],
+#                  data = df, linewidth=1)
+#handles, labels = bp.get_legend_handles_labels()
+#legend = matplotlib.pyplot.legend(handles[0:2], labels[0:2], title = 'Fear', loc = 8)
 
 #missing: legend outside the diagram, scale of y-axis in steps of one instead of two, 
 
 
+#plotnine
+#%%
 
+print((
+p9.ggplot(p9.aes(x="Disgust", y = "KillRating", color = "Fear"), data = df)
++ p9.geom_boxplot()
+#+ p9.annotate(xmin='low', xmax = 'high')
+))
 
-
-
+#p = ggplot(data = df, aes(x = "Disgust", y = "KillRating", hue = "Fear"))
+#bugs_plot = p9.ggplot(data = df, mapping = p9.aes(x = "Disgust", y = "KillRating", hue = "Fear") p9.scale_color_hue(l=0.45))
+#print( bugs_plot + p9.geom_boxplot() + p9.geom_jitter(show_legend = True))
 
 
 
