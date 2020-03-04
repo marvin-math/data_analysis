@@ -47,25 +47,32 @@ and the categories of bug as the predictor variables:\n\n""", m_kill.summary())
 # solutions taken from seaborn documentation: https://seaborn.pydata.org/generated/seaborn.boxplot.html ; 
 # https://seaborn.pydata.org/generated/seaborn.swarmplot.html and a forum: 
 # https://cmdlinetips.com/2019/03/how-to-make-grouped-boxplots-in-python-with-seaborn/
+matplotlib.pyplot.figure(figsize=(10,8))
+bp = seaborn.boxplot(x = 'Disgust', y = 'KillRating', hue = 'Fear', palette = ["#3498db", "#e74c3c"],
+                data = df, showfliers = False)
 
-#bp = seaborn.boxplot(x = 'Disgust', y = 'KillRating', hue = 'Fear', palette = ['r', 'b'],
-#                data = df, showfliers = False)
-#bp = seaborn.stripplot(x = 'Disgust', y = 'KillRating', hue = 'Fear', dodge = True, palette = ['r', 'b'],
-#                  data = df, linewidth=1)
-#handles, labels = bp.get_legend_handles_labels()
-#legend = matplotlib.pyplot.legend(handles[0:2], labels[0:2], title = 'Fear', loc = 8)
+bp = seaborn.stripplot(x = 'Disgust', y = 'KillRating', hue = 'Fear', dodge = True, palette = ["#3498db", "#e74c3c"],
+                  data = df, linewidth=1)
+handles, labels = bp.get_legend_handles_labels()
+legend = matplotlib.pyplot.legend(handles[0:2], labels[0:2], title = 'Fear', loc = 8)
 
 #missing: legend outside the diagram, scale of y-axis in steps of one instead of two, 
 
 
 #plotnine
 #%%
+#values = ['low', 'high']
+#print((
+#p9.ggplot(p9.aes(x = "Disgust", y = "KillRating", fill = "Fear"), data = df)
+#+ p9.scales.scale_x_discrete(labels = values)
+#+ p9.geom_boxplot()
 
-print((
-p9.ggplot(p9.aes(x="Disgust", y = "KillRating", color = "Fear"), data = df)
-+ p9.geom_boxplot()
+#+ p9.position_identity
+
+#+p9.
+#+ p9.scale_x_discrete(labels=values, name='Disgust')
 #+ p9.annotate(xmin='low', xmax = 'high')
-))
+#))
 
 #p = ggplot(data = df, aes(x = "Disgust", y = "KillRating", hue = "Fear"))
 #bugs_plot = p9.ggplot(data = df, mapping = p9.aes(x = "Disgust", y = "KillRating", hue = "Fear") p9.scale_color_hue(l=0.45))
