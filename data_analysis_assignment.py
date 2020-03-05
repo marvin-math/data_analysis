@@ -9,7 +9,6 @@ import matplotlib.pyplot
 import statistics
 import seaborn
 import statsmodels.formula.api as smf
-import plotnine as p9
 
 
 
@@ -55,6 +54,7 @@ bp = seaborn.stripplot(x = 'Disgust', y = 'KillRating', hue = 'Fear', dodge = Tr
                   data = df, linewidth=1)
 handles, labels = bp.get_legend_handles_labels()
 legend = matplotlib.pyplot.legend(handles[0:2], labels[0:2], title = 'Fear', loc = 8)
+matplotlib.pyplot.savefig('bp.svg')
 
 #missing: legend outside the diagram, scale of y-axis in steps of one instead of two, 
 
