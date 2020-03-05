@@ -14,7 +14,7 @@ import statsmodels.formula.api as smf
 
 # summary statistics
 #%%
-filepath = "bugs.csv"
+filepath = "busgs.csv"
 df = pandas.read_csv(filepath)
 summary_df = {"KillRating": [statistics.mean, statistics.median, min, max, statistics.stdev]}
 grouped_df = df.groupby(["Disgust", "Fear"]).aggregate(summary_df)
