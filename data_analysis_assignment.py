@@ -14,13 +14,25 @@ import statsmodels.formula.api as smf
 
 # summary statistics
 #%%
-filepath = "busgs.csv"
+filepath = "bugs.csv"
 df = pandas.read_csv(filepath)
-summary_df = {"KillRating": [statistics.mean, statistics.median, min, max, statistics.stdev]}
-grouped_df = df.groupby(["Disgust", "Fear"]).aggregate(summary_df)
-grouped_df_trial = df.groupby(["Disgust", "Fear"])
-print("Summary statistics of the KillRatings for each type of bug:\n\n",grouped_df)
+if df.columns[2] == 'Disgust' and df.columns[3] == 'Fear' and df.columns[4] == 'KillRating':
+    
+    summary_df = {"KillRating": [statistics.mean, statistics.median, min, max, statistics.stdev]}
+    grouped_df = df.groupby(["Disgust", "Fear"]).aggregate(summary_df)
+    grouped_df_trial = df.groupby(["Disgust", "Fear"])
+    print("Summary statistics of the KillRatings for each type of bug:\n\n",grouped_df)
 
+else:
+    error_message = """The columns for this particular task should be 'Disgust', 'Fear' 
+(the predictor variables) and 'KillRating' (outcome variable), 
+whereas the respective columns in the DataFrame are {}, {} and {}.
+Maybe check again whether {} stores the correct data"""
+    raise ValueError(error_message.format(df.columns[2],
+          df.columns[3], df.columns[4], filepath))
+
+#if df.columns[2] != 'Disgust' and df.columns[3] != 'Fear':
+#    raise 
 # linear regression
 #%%
 formula_kill = "KillRating ~ 1 + C(Disgust) + C(Fear)"
@@ -36,10 +48,14 @@ and the categories of bug as the predictor variables:\n\n""", m_kill.summary())
 #linear model: KillRating = 7.95 - 0.75 * Disgust - 1.43 * Fear (where Disgust
 # and Fear take the value 1 if low and 0 if high)
 # model-based predictions: 
-# low, low: 7.95 - 0.75 - 1.43 = 5.77
-# low, high: 7.95 - 0.75 = 7.2
-# high, low: 7.95 - 1.43 = 6.52
-# high, high: 7.95 - 0 = 7.95
+low_low = m_kill.params[0] + m_kill.params[1] + m_kill.params[2]
+low_high = m_kill.params[0] + m_kill.params[1]
+high_low = m_kill.params[0] + m_kill.params[2]
+high_high = m_kill.params[0]
+print("The model based predictions are:\nlow_low: ", low_low,
+      "\nlow_high: ", low_high, "\nhigh_low: ", high_low, "\nhigh_high: ", high_high)
+
+
 
 #visualizing the data
 #%%
