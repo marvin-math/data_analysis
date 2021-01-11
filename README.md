@@ -7,9 +7,9 @@ underneath the code. Further explanations about the meaning, logic or use cases
 of what is displayed are written in markdown text.
 follow the links below to get to the relevant parts of the program.
 ## The Data Analysis
-You can find the assignment file with all the required tasks [here](/Python_Assignment_Data_Analysis.ipynb)
+You can find the file with the data analysis [here](/Python_Assignment_Data_Analysis.ipynb)
 ## Boxplot
-You can find the boxplot from the assignment as an individual
+You can find the boxplot  as an individual
 figure [here](/bp.svg)
 ## Data
 I also added the data that this program is based upon. You can find that 
