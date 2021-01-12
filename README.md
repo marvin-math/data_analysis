@@ -1,4 +1,4 @@
-# python-assignment
+# Data Analysis
 This program deals with data analysis, particularly the ordinary least squares model. This program requires no interaction of the viewer. The code and 
 results are displayed in a jupyter (ipynb) file. 
 I just added a python file for the sake of completeness. 
